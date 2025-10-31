@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N-Queens Problem Visualizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .description {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .input-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #4a00e0;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background: #8e2de2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .visualization-section {
+            flex: 2;
+            min-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .board-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .chessboard {
+            display: grid;
+            gap: 2px;
+            border: 3px solid #333;
+            background-color: #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .cell {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .white {
+            background-color: #f0d9b5;
+        }
+        
+        .black {
+            background-color: #b58863;
+        }
+        
+        .queen {
+            color: #c70039;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .controls button {
+            flex: 1;
+        }
+        
+        .info-section {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .solution-info {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .solution-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        .solution-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .solution-card p {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .algorithm-explanation {
+            margin-top: 30px;
+            line-height: 1.6;
+        }
+        
+        .algorithm-explanation h2 {
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+        
+        .step {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .visualization-section, .input-section {
+                min-width: 100%;
+            }
+            
+            .cell {
+                width: 30px;
+                height: 30px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>N-Queens Problem Visualizer</h1>
+            <p class="description">
+                The N-Queens problem is a classic puzzle where you place N queens on an N×N chessboard so that no two queens threaten each other. 
+                This means no two queens can share the same row, column, or diagonal. Use this visualizer to see how the backtracking algorithm solves this problem.
+            </p>
+        </header>
+        
+        <div class="content">
+            <div class="input-section">
+                <h2>Configuration</h2>
+                <div class="input-group">
+                    <label for="queenCount">Number of Queens (N):</label>
+                    <input type="number" id="queenCount" min="1" max="12" value="4">
+                </div>
+                <button id="solveBtn">Solve N-Queens</button>
+                <button id="resetBtn">Reset Board</button>
+                
+                <div class="algorithm-explanation">
+                    <h2>How It Works</h2>
+                    <div class="step">
+                        <h3>Step 1: Backtracking Algorithm</h3>
+                        <p>The algorithm tries to place queens one by one in different columns, starting from the leftmost column.</p>
+                    </div>
+                    <div class="step">
+                        <h3>Step 2: Safe Placement Check</h3>
+                        <p>For each column, it checks all rows to find a safe position where the queen is not attacked by any already placed queens.</p>
+                    </div>
+                    <div class="step">
+                        <h3>Step 3: Recursive Solution</h3>
+                        <p>If a row is found to be safe, it places the queen and recursively tries to place the rest of the queens.</p>
+                    </div>
+                    <div class="step">
+                        <h3>Step 4: Backtracking</h3>
+                        <p>If placing a queen doesn't lead to a solution, it backtracks and tries the next row in the previous column.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visualization-section">
+                <h2>Chessboard Visualization</h2>
+                <div class="board-container">
+                    <div id="chessboard" class="chessboard"></div>
+                </div>
+                
+                <div class="controls">
+                    <button id="prevBtn">Previous Step</button>
+                    <button id="nextBtn">Next Step</button>
+                </div>
+                
+                <div class="info-section">
+                    <h2>Solution Information</h2>
+                    <div class="solution-info">
+                        <div class="solution-card">
+                            <h3>Queens Placed</h3>
+                            <p id="queensPlaced">0</p>
+                        </div>
+                        <div class="solution-card">
+                            <h3>Current Step</h3>
+                            <p id="currentStep">0</p>
+                        </div>
+                        <div class="solution-card">
+                            <h3>Total Steps</h3>
+                            <p id="totalSteps">0</p>
+                        </div>
+                        <div class="solution-card">
+                            <h3>Solutions Found</h3>
+                            <p id="solutionsFound">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const queenCountInput = document.getElementById('queenCount');
+            const solveBtn = document.getElementById('solveBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const chessboard = document.getElementById('chessboard');
+            const queensPlacedElement = document.getElementById('queensPlaced');
+            const currentStepElement = document.getElementById('currentStep');
+            const totalStepsElement = document.getElementById('totalSteps');
+            const solutionsFoundElement = document.getElementById('solutionsFound');
+            
+            let n = 4;
+            let board = [];
+            let solutions = [];
+            let currentStep = 0;
+            let solutionIndex = 0;
+            let steps = [];
+            
+            // Initialize the board
+            function initializeBoard() {
+                n = parseInt(queenCountInput.value);
+                if (n < 1 || n > 12) {
+                    alert('Please enter a number between 1 and 12');
+                    return;
+                }
+                
+                board = Array(n).fill().map(() => Array(n).fill(0));
+                solutions = [];
+                currentStep = 0;
+                solutionIndex = 0;
+                steps = [];
+                
+                renderBoard();
+                updateInfo();
+            }
+            
+            // Render the chessboard
+            function renderBoard() {
+                chessboard.innerHTML = '';
+                chessboard.style.gridTemplateColumns = 'repeat(' + n + ', 1fr)';
+                
+                for (let i = 0; i < n; i++) {
+                    for (let j = 0; j < n; j++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'cell ' + ((i + j) % 2 === 0 ? 'white' : 'black');
+                        
+                        if (board[i][j] === 1) {
+                            const queen = document.createElement('span');
+                            queen.className = 'queen';
+                            queen.textContent = '♛';
+                            cell.appendChild(queen);
+                        }
+                        
+                        chessboard.appendChild(cell);
+                    }
+                }
+            }
+            
+            // Update information display
+            function updateInfo() {
+                queensPlacedElement.textContent = board.flat().filter(cell => cell === 1).length;
+                currentStepElement.textContent = currentStep;
+                totalStepsElement.textContent = steps.length;
+                solutionsFoundElement.textContent = solutions.length;
+            }
+            
+            // Solve N-Queens problem
+            function solveNQueens() {
+                initializeBoard();
+                steps = [];
+                solutions = [];
+                
+                // Start solving from the first column
+                solveUtil(0);
+                
+                if (solutions.length > 0) {
+                    steps = solutions[0].steps;
+                    totalStepsElement.textContent = steps.length;
+                    showStep(0);
+                } else {
+                    alert('No solution found for ' + n + ' queens!');
+                }
+            }
+            
+            // Utility function to solve N-Queens using backtracking
+            function solveUtil(col, stepsArr = []) {
+                // If all queens are placed, add the solution
+                if (col >= n) {
+                    const solution = {
+                        board: board.map(row => [...row]),
+                        steps: [...stepsArr]
+                    };
+                    solutions.push(solution);
+                    return true;
+                }
+                
+                // Try placing queen in all rows one by one
+                for (let i = 0; i < n; i++) {
+                    if (isSafe(i, col)) {
+                        // Place queen
+                        board[i][col] = 1;
+                        stepsArr.push({
+                            action: 'place',
+                            row: i,
+                            col: col,
+                            board: board.map(row => [...row])
+                        });
+                        
+                        // Recur to place rest of the queens
+                        if (solveUtil(col + 1, stepsArr)) {
+                            // If we want all solutions, we don't return here
+                            // return true;
+                        }
+                        
+                        // If placing queen doesn't lead to a solution, backtrack
+                        board[i][col] = 0;
+                        stepsArr.push({
+                            action: 'remove',
+                            row: i,
+                            col: col,
+                            board: board.map(row => [...row])
+                        });
+                    }
+                }
+                
+                return false;
+            }
+            
+            // Check if a queen can be placed at board[row][col]
+            function isSafe(row, col) {
+                // Check this row on left side
+                for (let i = 0; i < col; i++) {
+                    if (board[row][i] === 1) return false;
+                }
+                
+                // Check upper diagonal on left side
+                for (let i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+                    if (board[i][j] === 1) return false;
+                }
+                
+                // Check lower diagonal on left side
+                for (let i = row, j = col; i < n && j >= 0; i++, j--) {
+                    if (board[i][j] === 1) return false;
+                }
+                
+                return true;
+            }
+            
+            // Show a specific step
+            function showStep(stepIndex) {
+                if (steps.length === 0) return;
+                
+                currentStep = stepIndex;
+                const step = steps[currentStep];
+                board = step.board.map(row => [...row]);
+                
+                renderBoard();
+                updateInfo();
+            }
+            
+            // Event listeners
+            solveBtn.addEventListener('click', solveNQueens);
+            resetBtn.addEventListener('click', initializeBoard);
+            
+            prevBtn.addEventListener('click', function() {
+                if (currentStep > 0) {
+                    showStep(currentStep - 1);
+                }
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                if (currentStep < steps.length - 1) {
+                    showStep(currentStep + 1);
+                }
+            });
+            
+            // Initialize on page load
+            initializeBoard();
+        });
+    </script>
+</body>
+</html>
