@@ -3,489 +3,475 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N-Queens Problem Visualizer</title>
+    <title>Vaishnavi Mandla Calculator</title>
     <style>
+        :root {
+            --primary-yellow: #FFD700;
+            --secondary-yellow: #FFEC8B;
+            --accent-red: #FF4500;
+            --dark-red: #B22222;
+            --text-dark: #333333;
+            --text-light: #FFFFFF;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-yellow), var(--accent-red));
             min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .description {
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-        
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-        }
-        
-        .input-section {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        
-        .input-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        input {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-        }
-        
-        button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            background: #4a00e0;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-        
-        button:hover {
-            background: #8e2de2;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .visualization-section {
-            flex: 2;
-            min-width: 500px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        
-        .board-container {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
-        }
-        
-        .chessboard {
-            display: grid;
-            gap: 2px;
-            border: 3px solid #333;
-            background-color: #333;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        }
-        
-        .cell {
-            width: 40px;
-            height: 40px;
-            display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            transition: all 0.3s ease;
-        }
-        
-        .white {
-            background-color: #f0d9b5;
-        }
-        
-        .black {
-            background-color: #b58863;
-        }
-        
-        .queen {
-            color: #c70039;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .controls button {
-            flex: 1;
-        }
-        
-        .info-section {
-            margin-top: 30px;
-            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
         }
-        
-        .solution-info {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 15px;
+
+        .calculator-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
         }
-        
-        .solution-card {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 15px;
-            border-radius: 10px;
-            flex: 1;
-            min-width: 150px;
+
+        .calculator-header {
+            background: linear-gradient(to right, var(--accent-red), var(--dark-red));
+            color: var(--text-light);
+            padding: 15px 20px;
             text-align: center;
+            position: relative;
         }
-        
-        .solution-card h3 {
-            margin-bottom: 10px;
+
+        .calculator-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .calculator-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .display-container {
+            padding: 20px;
+            background-color: var(--secondary-yellow);
+            border-bottom: 2px solid var(--accent-red);
+        }
+
+        .calculation-display {
             font-size: 1.2rem;
+            color: var(--text-dark);
+            min-height: 24px;
+            text-align: right;
+            margin-bottom: 5px;
+            overflow-x: auto;
+            white-space: nowrap;
         }
-        
-        .solution-card p {
-            font-size: 1.5rem;
-            font-weight: 700;
+
+        .result-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--dark-red);
+            text-align: right;
+            min-height: 50px;
+            overflow-x: auto;
+            white-space: nowrap;
         }
-        
-        .algorithm-explanation {
-            margin-top: 30px;
-            line-height: 1.6;
+
+        .buttons-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 20px;
+            background-color: white;
         }
-        
-        .algorithm-explanation h2 {
-            margin-bottom: 15px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-            padding-bottom: 10px;
-        }
-        
-        .step {
-            margin-bottom: 15px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
+
+        .calc-button {
+            height: 60px;
+            border: none;
             border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
-        @media (max-width: 768px) {
-            .content {
-                flex-direction: column;
+
+        .calc-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .number-button {
+            background-color: var(--secondary-yellow);
+            color: var(--text-dark);
+        }
+
+        .number-button:hover {
+            background-color: var(--primary-yellow);
+        }
+
+        .operation-button {
+            background-color: var(--accent-red);
+            color: var(--text-light);
+        }
+
+        .operation-button:hover {
+            background-color: var(--dark-red);
+        }
+
+        .function-button {
+            background-color: #FFA500;
+            color: var(--text-light);
+        }
+
+        .function-button:hover {
+            background-color: #FF8C00;
+        }
+
+        .equals-button {
+            background-color: var(--dark-red);
+            color: var(--text-light);
+            grid-column: span 2;
+        }
+
+        .equals-button:hover {
+            background-color: #8B0000;
+        }
+
+        .zero-button {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 480px) {
+            .calculator-container {
+                max-width: 100%;
             }
-            
-            .visualization-section, .input-section {
-                min-width: 100%;
+
+            .calc-button {
+                height: 50px;
+                font-size: 1rem;
             }
-            
-            .cell {
-                width: 30px;
-                height: 30px;
-                font-size: 18px;
+
+            .result-display {
+                font-size: 2rem;
             }
+        }
+
+        .history-panel {
+            background-color: white;
+            border-top: 2px solid var(--accent-red);
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            display: none;
+        }
+
+        .history-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .history-toggle {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>N-Queens Problem Visualizer</h1>
-            <p class="description">
-                The N-Queens problem is a classic puzzle where you place N queens on an N×N chessboard so that no two queens threaten each other. 
-                This means no two queens can share the same row, column, or diagonal. Use this visualizer to see how the backtracking algorithm solves this problem.
-            </p>
-        </header>
-        
-        <div class="content">
-            <div class="input-section">
-                <h2>Configuration</h2>
-                <div class="input-group">
-                    <label for="queenCount">Number of Queens (N):</label>
-                    <input type="number" id="queenCount" min="1" max="12" value="4">
-                </div>
-                <button id="solveBtn">Solve N-Queens</button>
-                <button id="resetBtn">Reset Board</button>
-                
-                <div class="algorithm-explanation">
-                    <h2>How It Works</h2>
-                    <div class="step">
-                        <h3>Step 1: Backtracking Algorithm</h3>
-                        <p>The algorithm tries to place queens one by one in different columns, starting from the leftmost column.</p>
-                    </div>
-                    <div class="step">
-                        <h3>Step 2: Safe Placement Check</h3>
-                        <p>For each column, it checks all rows to find a safe position where the queen is not attacked by any already placed queens.</p>
-                    </div>
-                    <div class="step">
-                        <h3>Step 3: Recursive Solution</h3>
-                        <p>If a row is found to be safe, it places the queen and recursively tries to place the rest of the queens.</p>
-                    </div>
-                    <div class="step">
-                        <h3>Step 4: Backtracking</h3>
-                        <p>If placing a queen doesn't lead to a solution, it backtracks and tries the next row in the previous column.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="visualization-section">
-                <h2>Chessboard Visualization</h2>
-                <div class="board-container">
-                    <div id="chessboard" class="chessboard"></div>
-                </div>
-                
-                <div class="controls">
-                    <button id="prevBtn">Previous Step</button>
-                    <button id="nextBtn">Next Step</button>
-                </div>
-                
-                <div class="info-section">
-                    <h2>Solution Information</h2>
-                    <div class="solution-info">
-                        <div class="solution-card">
-                            <h3>Queens Placed</h3>
-                            <p id="queensPlaced">0</p>
-                        </div>
-                        <div class="solution-card">
-                            <h3>Current Step</h3>
-                            <p id="currentStep">0</p>
-                        </div>
-                        <div class="solution-card">
-                            <h3>Total Steps</h3>
-                            <p id="totalSteps">0</p>
-                        </div>
-                        <div class="solution-card">
-                            <h3>Solutions Found</h3>
-                            <p id="solutionsFound">0</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <div class="calculator-name">Vaishnavi Mandla Calculator</div>
+            <div class="calculator-subtitle">Advanced Calculator for All Needs</div>
+            <button class="history-toggle" id="historyToggle">📜</button>
+        </div>
+
+        <div class="display-container">
+            <div class="calculation-display" id="calculationDisplay"></div>
+            <div class="result-display" id="resultDisplay">0</div>
+        </div>
+
+        <div class="history-panel" id="historyPanel">
+            <!-- History items will be added here -->
+        </div>
+
+        <div class="buttons-container">
+            <!-- Row 1 -->
+            <button class="calc-button function-button" data-action="clear">C</button>
+            <button class="calc-button function-button" data-action="backspace">⌫</button>
+            <button class="calc-button function-button" data-action="percentage">%</button>
+            <button class="calc-button operation-button" data-operation="/">÷</button>
+
+            <!-- Row 2 -->
+            <button class="calc-button number-button" data-number="7">7</button>
+            <button class="calc-button number-button" data-number="8">8</button>
+            <button class="calc-button number-button" data-number="9">9</button>
+            <button class="calc-button operation-button" data-operation="*">×</button>
+
+            <!-- Row 3 -->
+            <button class="calc-button number-button" data-number="4">4</button>
+            <button class="calc-button number-button" data-number="5">5</button>
+            <button class="calc-button number-button" data-number="6">6</button>
+            <button class="calc-button operation-button" data-operation="-">−</button>
+
+            <!-- Row 4 -->
+            <button class="calc-button number-button" data-number="1">1</button>
+            <button class="calc-button number-button" data-number="2">2</button>
+            <button class="calc-button number-button" data-number="3">3</button>
+            <button class="calc-button operation-button" data-operation="+">+</button>
+
+            <!-- Row 5 -->
+            <button class="calc-button number-button zero-button" data-number="0">0</button>
+            <button class="calc-button number-button" data-number=".">.</button>
+            <button class="calc-button equals-button" data-action="calculate">=</button>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const queenCountInput = document.getElementById('queenCount');
-            const solveBtn = document.getElementById('solveBtn');
-            const resetBtn = document.getElementById('resetBtn');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const chessboard = document.getElementById('chessboard');
-            const queensPlacedElement = document.getElementById('queensPlaced');
-            const currentStepElement = document.getElementById('currentStep');
-            const totalStepsElement = document.getElementById('totalSteps');
-            const solutionsFoundElement = document.getElementById('solutionsFound');
-            
-            let n = 4;
-            let board = [];
-            let solutions = [];
-            let currentStep = 0;
-            let solutionIndex = 0;
-            let steps = [];
-            
-            // Initialize the board
-            function initializeBoard() {
-                n = parseInt(queenCountInput.value);
-                if (n < 1 || n > 12) {
-                    alert('Please enter a number between 1 and 12');
-                    return;
+            // DOM Elements
+            const calculationDisplay = document.getElementById('calculationDisplay');
+            const resultDisplay = document.getElementById('resultDisplay');
+            const historyPanel = document.getElementById('historyPanel');
+            const historyToggle = document.getElementById('historyToggle');
+            const buttons = document.querySelectorAll('.calc-button');
+
+            // Calculator state
+            let currentInput = '0';
+            let previousInput = '';
+            let operation = null;
+            let resetInput = false;
+            let calculationHistory = [];
+
+            // Update display
+            function updateDisplay() {
+                resultDisplay.textContent = currentInput;
+                calculationDisplay.textContent = previousInput + (operation ? ' ' + getOperationSymbol(operation) : '');
+            }
+
+            // Get operation symbol for display
+            function getOperationSymbol(op) {
+                const symbols = {
+                    '+': '+',
+                    '-': '−',
+                    '*': '×',
+                    '/': '÷'
+                };
+                return symbols[op] || op;
+            }
+
+            // Add to calculation history
+            function addToHistory(calculation, result) {
+                calculationHistory.unshift({
+                    calculation: calculation,
+                    result: result,
+                    timestamp: new Date().toLocaleTimeString()
+                });
+
+                // Keep only last 10 calculations
+                if (calculationHistory.length > 10) {
+                    calculationHistory.pop();
                 }
-                
-                board = Array(n).fill().map(() => Array(n).fill(0));
-                solutions = [];
-                currentStep = 0;
-                solutionIndex = 0;
-                steps = [];
-                
-                renderBoard();
-                updateInfo();
+
+                updateHistoryPanel();
             }
-            
-            // Render the chessboard
-            function renderBoard() {
-                chessboard.innerHTML = '';
-                chessboard.style.gridTemplateColumns = 'repeat(' + n + ', 1fr)';
-                
-                for (let i = 0; i < n; i++) {
-                    for (let j = 0; j < n; j++) {
-                        const cell = document.createElement('div');
-                        cell.className = 'cell ' + ((i + j) % 2 === 0 ? 'white' : 'black');
-                        
-                        if (board[i][j] === 1) {
-                            const queen = document.createElement('span');
-                            queen.className = 'queen';
-                            queen.textContent = '♛';
-                            cell.appendChild(queen);
-                        }
-                        
-                        chessboard.appendChild(cell);
-                    }
-                }
+
+            // Update history panel
+            function updateHistoryPanel() {
+                historyPanel.innerHTML = '';
+
+                calculationHistory.forEach(item => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    historyItem.innerHTML = `
+                        <div>${item.calculation} = ${item.result}</div>
+                        <small>${item.timestamp}</small>
+                    `;
+                    historyPanel.appendChild(historyItem);
+                });
             }
-            
-            // Update information display
-            function updateInfo() {
-                queensPlacedElement.textContent = board.flat().filter(cell => cell === 1).length;
-                currentStepElement.textContent = currentStep;
-                totalStepsElement.textContent = steps.length;
-                solutionsFoundElement.textContent = solutions.length;
+
+            // Reset calculator
+            function resetCalculator() {
+                currentInput = '0';
+                previousInput = '';
+                operation = null;
+                resetInput = false;
+                updateDisplay();
             }
-            
-            // Solve N-Queens problem
-            function solveNQueens() {
-                initializeBoard();
-                steps = [];
-                solutions = [];
-                
-                // Start solving from the first column
-                solveUtil(0);
-                
-                if (solutions.length > 0) {
-                    steps = solutions[0].steps;
-                    totalStepsElement.textContent = steps.length;
-                    showStep(0);
+
+            // Handle number input
+            function inputNumber(number) {
+                if (currentInput === '0' || resetInput) {
+                    currentInput = number;
+                    resetInput = false;
                 } else {
-                    alert('No solution found for ' + n + ' queens!');
+                    currentInput += number;
                 }
+                updateDisplay();
             }
-            
-            // Utility function to solve N-Queens using backtracking
-            function solveUtil(col, stepsArr = []) {
-                // If all queens are placed, add the solution
-                if (col >= n) {
-                    const solution = {
-                        board: board.map(row => [...row]),
-                        steps: [...stepsArr]
-                    };
-                    solutions.push(solution);
-                    return true;
+
+            // Handle decimal point
+            function inputDecimal() {
+                if (resetInput) {
+                    currentInput = '0.';
+                    resetInput = false;
+                } else if (!currentInput.includes('.')) {
+                    currentInput += '.';
                 }
-                
-                // Try placing queen in all rows one by one
-                for (let i = 0; i < n; i++) {
-                    if (isSafe(i, col)) {
-                        // Place queen
-                        board[i][col] = 1;
-                        stepsArr.push({
-                            action: 'place',
-                            row: i,
-                            col: col,
-                            board: board.map(row => [...row])
-                        });
-                        
-                        // Recur to place rest of the queens
-                        if (solveUtil(col + 1, stepsArr)) {
-                            // If we want all solutions, we don't return here
-                            // return true;
+                updateDisplay();
+            }
+
+            // Handle operations
+            function handleOperation(nextOperation) {
+                const inputValue = parseFloat(currentInput);
+
+                if (previousInput === '') {
+                    previousInput = currentInput;
+                } else if (operation) {
+                    const result = calculate();
+                    currentInput = `${result}`;
+                    previousInput = `${result}`;
+                }
+
+                resetInput = true;
+                operation = nextOperation;
+                updateDisplay();
+            }
+
+            // Perform calculation
+            function calculate() {
+                let computation;
+                const prev = parseFloat(previousInput);
+                const current = parseFloat(currentInput);
+
+                if (isNaN(prev) || isNaN(current)) return;
+
+                switch (operation) {
+                    case '+':
+                        computation = prev + current;
+                        break;
+                    case '-':
+                        computation = prev - current;
+                        break;
+                    case '*':
+                        computation = prev * current;
+                        break;
+                    case '/':
+                        computation = prev / current;
+                        break;
+                    default:
+                        return;
+                }
+
+                // Add to history
+                addToHistory(`${previousInput} ${getOperationSymbol(operation)} ${currentInput}`, computation);
+
+                return computation;
+            }
+
+            // Handle equals button
+            function performCalculation() {
+                if (operation === null || resetInput) return;
+
+                const result = calculate();
+                currentInput = `${result}`;
+                operation = null;
+                previousInput = '';
+                resetInput = true;
+                updateDisplay();
+            }
+
+            // Handle percentage
+            function handlePercentage() {
+                currentInput = `${parseFloat(currentInput) / 100}`;
+                updateDisplay();
+            }
+
+            // Handle backspace
+            function handleBackspace() {
+                if (currentInput.length > 1) {
+                    currentInput = currentInput.slice(0, -1);
+                } else {
+                    currentInput = '0';
+                }
+                updateDisplay();
+            }
+
+            // Button click event listener
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    if (button.hasAttribute('data-number')) {
+                        inputNumber(button.getAttribute('data-number'));
+                    } else if (button.hasAttribute('data-operation')) {
+                        handleOperation(button.getAttribute('data-operation'));
+                    } else if (button.hasAttribute('data-action')) {
+                        const action = button.getAttribute('data-action');
+
+                        switch (action) {
+                            case 'clear':
+                                resetCalculator();
+                                break;
+                            case 'backspace':
+                                handleBackspace();
+                                break;
+                            case 'percentage':
+                                handlePercentage();
+                                break;
+                            case 'calculate':
+                                performCalculation();
+                                break;
                         }
-                        
-                        // If placing queen doesn't lead to a solution, backtrack
-                        board[i][col] = 0;
-                        stepsArr.push({
-                            action: 'remove',
-                            row: i,
-                            col: col,
-                            board: board.map(row => [...row])
-                        });
                     }
-                }
-                
-                return false;
-            }
-            
-            // Check if a queen can be placed at board[row][col]
-            function isSafe(row, col) {
-                // Check this row on left side
-                for (let i = 0; i < col; i++) {
-                    if (board[row][i] === 1) return false;
-                }
-                
-                // Check upper diagonal on left side
-                for (let i = row, j = col; i >= 0 && j >= 0; i--, j--) {
-                    if (board[i][j] === 1) return false;
-                }
-                
-                // Check lower diagonal on left side
-                for (let i = row, j = col; i < n && j >= 0; i++, j--) {
-                    if (board[i][j] === 1) return false;
-                }
-                
-                return true;
-            }
-            
-            // Show a specific step
-            function showStep(stepIndex) {
-                if (steps.length === 0) return;
-                
-                currentStep = stepIndex;
-                const step = steps[currentStep];
-                board = step.board.map(row => [...row]);
-                
-                renderBoard();
-                updateInfo();
-            }
-            
-            // Event listeners
-            solveBtn.addEventListener('click', solveNQueens);
-            resetBtn.addEventListener('click', initializeBoard);
-            
-            prevBtn.addEventListener('click', function() {
-                if (currentStep > 0) {
-                    showStep(currentStep - 1);
+                });
+            });
+
+            // Keyboard support
+            document.addEventListener('keydown', event => {
+                if (event.key >= '0' && event.key <= '9') {
+                    inputNumber(event.key);
+                } else if (event.key === '.') {
+                    inputDecimal();
+                } else if (event.key === '+' || event.key === '-' || event.key === '*' || event.key === '/') {
+                    handleOperation(event.key);
+                } else if (event.key === 'Enter' || event.key === '=') {
+                    performCalculation();
+                } else if (event.key === 'Escape') {
+                    resetCalculator();
+                } else if (event.key === 'Backspace') {
+                    handleBackspace();
+                } else if (event.key === '%') {
+                    handlePercentage();
                 }
             });
-            
-            nextBtn.addEventListener('click', function() {
-                if (currentStep < steps.length - 1) {
-                    showStep(currentStep + 1);
+
+            // Toggle history panel
+            historyToggle.addEventListener('click', () => {
+                if (historyPanel.style.display === 'block') {
+                    historyPanel.style.display = 'none';
+                } else {
+                    historyPanel.style.display = 'block';
+                    updateHistoryPanel();
                 }
             });
-            
-            // Initialize on page load
-            initializeBoard();
+
+            // Initialize display
+            updateDisplay();
         });
     </script>
 </body>
